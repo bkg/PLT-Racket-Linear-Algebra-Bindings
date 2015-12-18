@@ -21,7 +21,8 @@
 (require schemeunit
          "vector.ss"
          (lib "math.ss")
-         (planet "srfi-4-comprehensions.ss" ("wmfarr" "srfi-4-comprehensions.plt" 1)))
+         (lib "4.ss" "srfi")
+         (lib "42ref.ss" "srfi"))
 
 (provide vector-test-suite)
 
@@ -38,8 +39,8 @@
                   (sqrt 30)))
    (test-case
     "f64vector-add, f64vector-sub, f64vector-scale"
-    (let ((v1 (f64vector-of-length-ec 10 (:range i 10) (random)))
-          (v2 (f64vector-of-length-ec 10 (:range i 10) (random))))
+    (let ((v1 (list->f64vector (list-ec (:range i 10) (random))))
+          (v2 (list->f64vector (list-ec (:range i 10) (random)))))
       (let ((x (f64vector-sub v1 v2))
             (y (f64vector-add v1 (f64vector-scale v2 -1))))
         (do ((i 0 (add1 i)))
@@ -47,5 +48,5 @@
           (check-close? 1e-10 (f64vector-ref x i) (f64vector-ref y i))))))
    (test-case
     "f64vector-dot"
-    (let ((v (f64vector-of-length-ec 10 (:range i 10) (random))))
+    (let ((v (list->f64vector (list-ec (:range i 10) (random)))))
       (check-close? 1e-10 (f64vector-dot v v) (sqr (f64vector-norm v)))))))
