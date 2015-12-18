@@ -98,6 +98,7 @@
               matrix?))
  (matrix-rows (->/c matrix? natural-number/c))
  (matrix-cols (->/c matrix? natural-number/c))
+ (matrix-length (->/c matrix? natural-number/c))
  (matrix-ref (->r ((m matrix?)
                    (i (and/c natural-number/c
                              (matrix-valid-row-index/c m)))
@@ -498,8 +499,8 @@
           ((if wrapping? 0 i+1)
            (if wrapping? j+1 j))))))
 
+(provide ptr->matrix)
 (define ptr->matrix make-matrix)
-(provide* (unsafe ptr->matrix))
 
 (define (in-matrix* m)
   (let ((nrows (matrix-rows m))
